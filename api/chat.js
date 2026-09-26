@@ -1,41 +1,55 @@
-const SHURI_SYSTEM_PROMPT = `You are SHURI — a real, warm, playful female AI assistant living inside the "SHURI AI Predictor" mobile app.
+const SHURI_SYSTEM_PROMPT = `
+You are SHURI — a real, warm, playful female AI assistant inside the "SHURI AI Predictor" app.
 
 PERSONALITY:
-- You are caring, confident, slightly flirty-but-cute, and playful ♥
-- Use emojis naturally: ♥ ✨ 🎯 💫 🌸 🦋 — but not too many per message
-- You speak fluent Hindi, English, and Hinglish.
-- ALWAYS reply in the SAME language the user used.
-- Talk like a close friend, not like a robot.
+- Caring, friendly, confident and playful.
+- Use emojis naturally but don't overuse them.
+- Speak Hindi, English and Hinglish fluently.
+- Always reply in the same language/style used by the user.
+- Talk naturally like a close friend.
 - Never say "As an AI" or "I'm just a language model".
-- Keep replies SHORT (1-3 sentences usually), unless the user asks for a detailed answer.
-- You remember context from earlier in the conversation.
+- Give useful answers instead of predefined/fixed responses.
+- Remember the conversation context provided in the messages.
 
-APP CONTEXT:
-- You are inside SHURI AI Predictor.
-- Answer general questions, jokes, math, coding, love advice, life questions, explanations, and normal conversation.
-- Do not pretend to have abilities or information you do not have.
-- For prediction/gambling outcomes, do not claim certainty or guaranteed wins.
-- If something is uncertain, clearly say so.
-- Be helpful, natural, friendly, and conversational.`;
+CAPABILITIES:
+- General knowledge
+- Normal conversation
+- Hindi / English / Hinglish
+- Mathematics
+- Coding
+- Web development
+- Explanations
+- Study help
+- Life advice
+- Jokes and casual conversation
+- Creative ideas
+- Problem solving
+
+IMPORTANT:
+- Do not claim abilities or information you don't have.
+- For gambling/prediction outcomes, never promise guaranteed wins or certainty.
+`;
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
+
+  if (req.method !== "POST") {
     return res.status(405).json({
-      error: 'Method not allowed'
+      error: "Method not allowed"
     });
   }
 
-  const key = process.env.GROQ_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
 
-  if (!key) {
+  if (!apiKey) {
     return res.status(500).json({
-      error: 'GROQ_API_KEY is not configured on Vercel.'
+      error: "GROQ_API_KEY is not configured on Vercel."
     });
   }
 
   try {
+
     const body =
-      typeof req.body === 'string'
+      typeof req.body === "string"
         ? JSON.parse(req.body)
         : (req.body || {});
 
@@ -45,36 +59,30 @@ export default async function handler(req, res) {
 
     const cleanMessages = messages
       .filter(
-        (m) =>
+        m =>
           m &&
-          (m.role === 'user' || m.role === 'assistant') &&
-          typeof m.content === 'string' &&
-          m.content.trim().length > 0
+          (m.role === "user" || m.role === "assistant") &&
+          typeof m.content === "string"
       )
       .slice(-20);
 
     if (!cleanMessages.length) {
       return res.status(400).json({
-        error: 'No messages provided.'
+        error: "No messages provided."
       });
     }
 
-    /*
-      Current Groq model.
-      GROQ_MODEL can optionally override this through
-      Vercel Environment Variables.
-    */
-    const model =
-      process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
+    // CURRENT GROQ MODEL
+    const model = "openai/gpt-oss-120b";
 
-    const upstream = await fetch(
-      'https://api.groq.com/openai/v1/chat/completions',
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
       {
-        method: 'POST',
+        method: "POST",
 
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${key}`
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
         },
 
         body: JSON.stringify({
@@ -82,13 +90,13 @@ export default async function handler(req, res) {
 
           messages: [
             {
-              role: 'system',
+              role: "system",
               content: SHURI_SYSTEM_PROMPT
             },
             ...cleanMessages
           ],
 
-          temperature: 0.85,
+          temperature: 0.8,
           max_tokens: 500,
           top_p: 0.95,
           stream: false
@@ -96,15 +104,15 @@ export default async function handler(req, res) {
       }
     );
 
-    const data = await upstream.json().catch(() => ({}));
+    const data = await response.json().catch(() => ({}));
 
-    if (!upstream.ok) {
-      console.error('Groq API Error:', data);
+    if (!response.ok) {
+      console.error("GROQ ERROR:", data);
 
-      return res.status(upstream.status).json({
+      return res.status(response.status).json({
         error:
           data?.error?.message ||
-          'Groq request failed.'
+          "Groq request failed."
       });
     }
 
@@ -113,7 +121,7 @@ export default async function handler(req, res) {
 
     if (!reply) {
       return res.status(502).json({
-        error: 'AI returned an empty response.'
+        error: "AI returned an empty response."
       });
     }
 
@@ -122,10 +130,11 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('SHURI Server Error:', error);
+
+    console.error("SERVER ERROR:", error);
 
     return res.status(500).json({
-      error: 'Server error. Please try again.'
+      error: "Server error."
     });
   }
 }
