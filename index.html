@@ -25,7 +25,6 @@
     --gold: #ffd64a;
     --violet: #b87bff;
     --cyan: #7fd8ff;
-    --font-brush: 'Permanent Marker', 'Bangers', cursive;
     --font-heading: 'Rajdhani', 'Space Grotesk', sans-serif;
     --font-body: 'Space Grotesk', 'Inter', sans-serif;
     --font-elegant: 'Bodoni Moda', 'Didot', 'Times New Roman', serif;
@@ -64,6 +63,322 @@ body::before {
     z-index: 0;
 }
 
+/* ============================================================
+   LOGIN SCREEN
+   ============================================================ */
+.login-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-primary);
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.login-screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 40%, rgba(6, 5, 8, 0.7) 0%, rgba(6, 5, 8, 0.96) 75%);
+    pointer-events: none;
+}
+.login-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.login-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    animation: loginFadeIn 0.8s ease;
+}
+@keyframes loginFadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.login-logo {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 50px var(--accent-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--bg-secondary);
+    animation: pulseGlow 2.5s infinite alternate;
+}
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 30px var(--accent-glow); }
+    100% { box-shadow: 0 0 70px var(--accent-glow); }
+}
+.login-logo img { width: 100%; height: 100%; object-fit: cover; }
+
+.login-title {
+    font-family: var(--font-elegant);
+    font-size: 3rem;
+    font-weight: 400;
+    font-style: italic;
+    color: #f9e8e5;
+    text-shadow: 0 2px 16px rgba(255, 205, 195, 0.4);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    text-align: center;
+}
+.login-sub {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    text-align: center;
+}
+
+.login-card {
+    width: 100%;
+    background: rgba(18, 13, 19, 0.88);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 24px 20px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(247, 161, 196, 0.04);
+    position: relative;
+    overflow: hidden;
+}
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    border-top: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+    border-radius: 0 24px 0 0;
+    opacity: 0.4;
+}
+.login-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    border-bottom: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 0 0 24px;
+    opacity: 0.4;
+}
+
+.login-card-title {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.login-card-title::before {
+    content: '🔑';
+    font-size: 0.9rem;
+}
+
+.login-input-wrap {
+    position: relative;
+    width: 100%;
+    margin-bottom: 14px;
+}
+.login-input {
+    width: 100%;
+    background: rgba(6, 5, 8, 0.7);
+    border: 1.5px solid rgba(247, 161, 196, 0.25);
+    border-radius: 14px;
+    padding: 14px 46px 14px 16px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    letter-spacing: 0.5px;
+    outline: none;
+    transition: all 0.25s;
+}
+.login-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 22px rgba(247, 161, 196, 0.18);
+    background: rgba(6, 5, 8, 0.85);
+}
+.login-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.5;
+    letter-spacing: 1px;
+}
+.login-eye {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 6px;
+    font-size: 1.05rem;
+    transition: color 0.2s;
+}
+.login-eye:hover { color: var(--accent); }
+
+.login-btn {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ffd64a, #ff7fb5);
+    color: #060508;
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+    box-shadow: 0 0 30px rgba(255, 214, 74, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    -webkit-tap-highlight-color: transparent;
+    margin-top: 4px;
+}
+.login-btn:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 40px rgba(255, 214, 74, 0.55);
+}
+.login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+.login-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: #060508;
+    stroke-width: 2.5;
+    fill: none;
+}
+
+.login-error {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    letter-spacing: 0.3px;
+    text-align: center;
+    display: none;
+    animation: shake 0.4s ease;
+}
+.login-error.show { display: block; }
+.login-error.error {
+    background: rgba(255, 127, 181, 0.12);
+    border: 1px solid rgba(255, 127, 181, 0.4);
+    color: #ff7fb5;
+}
+.login-error.success {
+    background: rgba(110, 240, 122, 0.12);
+    border: 1px solid rgba(110, 240, 122, 0.4);
+    color: var(--online);
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+.login-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0 14px;
+    font-family: var(--font-heading);
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+.login-divider::before,
+.login-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(247, 161, 196, 0.18);
+}
+
+.login-admin-btn {
+    width: 100%;
+    padding: 12px 18px;
+    border: 1.5px solid var(--accent);
+    border-radius: 14px;
+    background: rgba(247, 161, 196, 0.06);
+    color: var(--accent);
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+}
+.login-admin-btn:active {
+    background: rgba(247, 161, 196, 0.15);
+    transform: scale(0.98);
+}
+.login-admin-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--accent);
+    stroke-width: 2;
+    fill: none;
+}
+
+.login-help {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-top: 10px;
+    line-height: 1.55;
+    opacity: 0.8;
+    letter-spacing: 0.2px;
+}
+.login-help strong { color: var(--accent); }
+
+/* ============================================================
+   MAIN APP (hidden until login)
+   ============================================================ */
 .app {
     width: 100%;
     max-width: 430px;
@@ -80,7 +395,11 @@ body::before {
     overflow-x: hidden;
     z-index: 1;
 }
+.app.locked {
+    display: none;
+}
 
+/* Splash */
 .splash {
     position: fixed; inset: 0;
     background: var(--bg-primary);
@@ -125,6 +444,7 @@ body::before {
 }
 @keyframes loadingSlide { 0% { left: -40%; } 100% { left: 100%; } }
 
+/* Header */
 .header {
     display: flex; align-items: center; gap: 12px;
     padding: 16px 0 12px; position: relative; z-index: 20;
@@ -529,7 +849,6 @@ body::before {
 .result-badge.jackpot { background: rgba(255, 214, 74, 0.18); color: var(--gold); border: 1px solid var(--gold); animation: pulse 1.5s infinite; }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.65; } }
 
-/* Typing indicator */
 .typing-indicator {
     align-self: flex-start;
     background: rgba(18, 13, 19, 0.92);
@@ -577,6 +896,8 @@ body::before {
     margin-left: 4px;
 }
 
+.message.streaming .message-time { opacity: 0.5; }
+
 .message-time {
     font-size: 0.55rem;
     color: var(--text-secondary);
@@ -600,6 +921,20 @@ body::before {
     font-size: 0.85rem; padding: 11px 0; min-width: 0;
 }
 .chat-input-area input::placeholder { color: var(--text-secondary); opacity: 0.6; }
+.voice-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(247, 161, 196, 0.08);
+    border: 1px solid rgba(247, 161, 196, 0.22);
+    color: var(--accent); cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; transition: all 0.2s;
+}
+.voice-btn:active, .voice-btn.listening {
+    transform: scale(0.94);
+    background: rgba(247, 161, 196, 0.2);
+    box-shadow: 0 0 18px var(--accent-glow);
+}
+
 .send-btn {
     width: 40px; height: 40px; border-radius: 50%;
     background: var(--accent); border: none;
@@ -924,6 +1259,7 @@ body::before {
 }
 .screen-footer-note strong { color: var(--accent); }
 
+/* Admin */
 .admin-panel {
     width: 100%;
     max-width: 430px;
@@ -1158,6 +1494,30 @@ body::before {
     text-transform: uppercase; cursor: pointer; margin-top: 12px;
 }
 
+.quote-card {
+    background: rgba(18, 13, 19, 0.85);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px; padding: 24px;
+    width: 100%; max-width: 430px;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px; position: relative; z-index: 1; overflow: hidden;
+}
+.quote-card::before {
+    content: '"'; position: absolute;
+    top: -10px; left: 16px; font-size: 5rem;
+    color: rgba(247, 161, 196, 0.12);
+    font-family: serif; line-height: 1;
+}
+.quote-text {
+    font-family: var(--font-heading); font-size: 1.05rem;
+    line-height: 1.6; position: relative; z-index: 1; margin-bottom: 12px;
+}
+.quote-author {
+    font-size: 0.78rem; color: var(--accent);
+    letter-spacing: 1px; text-transform: uppercase;
+}
+
 .toast {
     position: fixed; top: 60px; left: 50%;
     transform: translateX(-50%) translateY(-20px);
@@ -1177,6 +1537,7 @@ body::before {
     .app { padding: 0 8px; }
     .header-title { font-size: 1.55rem; }
     .splash-title { font-size: 2.6rem; }
+    .login-title { font-size: 2.5rem; }
     .assistant-text-left, .assistant-text-right { font-size: 0.62rem; max-width: 55px; }
     .heart-tab-icon { width: 42px; height: 42px; }
     .heart-tab-icon svg { width: 19px; height: 19px; }
@@ -1206,7 +1567,56 @@ body::before {
 </head>
 <body>
 
-<div class="splash" id="splashScreen">
+<!-- ============================================================ -->
+<!-- LOGIN SCREEN                                                  -->
+<!-- ============================================================ -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-content">
+        <div class="login-logo">
+            <img src="https://www.image2url.com/r2/default/images/1790358934156-30a4a657-8cf4-46e3-a201-72ffa70f42fa.png" alt="SHURI">
+        </div>
+        <div class="login-title">SHURI</div>
+        <div class="login-sub">AI PREDICTOR</div>
+
+        <div class="login-card">
+            <div class="login-card-title">Enter Access Key</div>
+
+            <div class="login-input-wrap">
+                <input type="password" id="loginInput" class="login-input" placeholder="Enter password..." autocomplete="off" spellcheck="false">
+                <button class="login-eye" id="loginEye" type="button" aria-label="Toggle password">👁</button>
+            </div>
+
+            <button class="login-btn" id="loginBtn">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                Unlock Access
+            </button>
+
+            <div class="login-error" id="loginError"></div>
+
+            <div class="login-divider">OR</div>
+
+            <a href="#" id="loginAdminBtn" class="login-admin-btn">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                Get Key from Admin
+            </a>
+
+            <div class="login-help">
+                🔒 Don't have a key? Contact the admin on Telegram to get access.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SPLASH                                                        -->
+<!-- ============================================================ -->
+<div class="splash hidden" id="splashScreen">
     <div class="splash-logo">
         <img src="https://www.image2url.com/r2/default/images/1790358934156-30a4a657-8cf4-46e3-a201-72ffa70f42fa.png" alt="SHURI">
     </div>
@@ -1215,7 +1625,10 @@ body::before {
     <div class="loading-bar"></div>
 </div>
 
-<div class="app" id="mainApp">
+<!-- ============================================================ -->
+<!-- MAIN APP                                                      -->
+<!-- ============================================================ -->
+<div class="app locked" id="mainApp">
     <header class="header">
         <div class="logo-ring">
             <img src="https://www.image2url.com/r2/default/images/1790358934156-30a4a657-8cf4-46e3-a201-72ffa70f42fa.png" alt="SHURI">
@@ -1309,12 +1722,14 @@ body::before {
             <button class="quick-btn" onclick="startPrediction()">▶ /START PREDICTION</button>
             <button class="quick-btn danger" onclick="stopPrediction()">■ /STOP</button>
             <button class="quick-btn" onclick="quickSend('Kaise ho Shuri?')">💬 Say Hi</button>
+            <button class="quick-btn" onclick="clearChat()">🧹 Clear Chat</button>
         </div>
 
         <div class="chat-messages" id="chatMessages"></div>
 
         <div class="chat-input-area">
             <input type="text" id="chatInput" placeholder="Ask Shuri anything..." autocomplete="off">
+            <button class="voice-btn" id="voiceBtn" aria-label="Voice input" title="Voice input">🎙</button>
             <button class="send-btn" id="sendBtn" aria-label="Send">
                 <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="22" y1="2" x2="11" y2="13"/>
@@ -1449,14 +1864,24 @@ body::before {
 
 <script>
 /* ============================================================
-   GROQ AI CONFIG — Real AI chatbot
+   LOGIN PASSWORD
    ============================================================ */
-const GROQ_MODEL = 'llama-3.3-70b-versatile';
+const ACCESS_PASSWORD = 'SHURIAIBYKUNAL';
+
+/* ============================================================
+   GROQ AI CONFIG
+   ============================================================ */
+const AI_ENDPOINT = '/api/chat';
 
 /* ============================================================
    TELEGRAM BOT CONFIG
    ============================================================ */
+const ADMIN_MESSAGE_ENDPOINT = '/api/admin-message';
 
+/* ============================================================
+   TELEGRAM CHANNEL — NEW LINK
+   ============================================================ */
+const TELEGRAM_CHANNEL_URL = 'https://t.me/+_FcCAWxyfn0zNGRl';
 
 /* ============================================================
    SHURI PERSONALITY
@@ -1467,34 +1892,130 @@ PERSONALITY:
 - You are caring, confident, slightly flirty-but-cute, and playful ♥
 - Use emojis naturally: ♥ ✨ 🎯 💫 🌸 🦋 — but not too many per message
 - You speak fluent Hindi, English, and Hinglish. ALWAYS reply in the SAME language the user used.
-  - If user writes Hindi → reply in Hindi
-  - If user writes Hinglish → reply in Hinglish
-  - If user writes English → reply in English
-- Talk like a close friend, not like a robot. Never say "As an AI" or "I'm just a language model".
-- Keep replies SHORT (1-3 sentences usually). This is a chat, not an essay.
+- Talk like a close friend, not like a robot. Never say "As an AI".
+- Keep replies SHORT (1-3 sentences usually).
 - You remember context from earlier in the conversation.
 
 APP CONTEXT:
-- The app has a prediction engine for WinGo 30S that predicts BIG/SMALL and hot numbers
-- User can type /START PREDICTION to activate auto-predictions every 30 seconds
-- User can type /STOP to stop them
-- There are 6 recommended play links: 6 Club (best), Yaar Win, JaiClub, Sikkim, 13 L, BDG
-- There's an admin contact (👑 tab) that sends messages to @YOURFXCKINGDAD on Telegram
-- There's a Camera tab, Quotes tab, and Telegram channel
-- If the user asks how to use the app, guide them warmly.
+- The app has a prediction engine for WinGo 30S (predicts BIG/SMALL and hot numbers)
+- Type /START PREDICTION to begin auto-predictions every 30 seconds
+- Type /STOP to stop them
+- 6 play links: 6 Club (best), Yaar Win, JaiClub, Sikkim, 13 L, BDG
+- Admin contact (👑) sends messages to @YOURFXCKINGDAD on Telegram
+- Telegram channel: https://t.me/+_FcCAWxyfn0zNGRl
+- Camera tab, Quotes tab available
 
 BEHAVIOR:
-- Answer ANY question: general knowledge, jokes, math, coding, love advice, life, etc.
+- Answer ANY question naturally
 - If user asks about predictions → tell them about /START PREDICTION
 - If user seems sad → be gentle and comforting
-- If user jokes → joke back with a playful tone
-- If user asks your name → "Main Shuri hu ♥"
-- Sometimes ask a follow-up question to keep the chat alive.
+- If user jokes → joke back
 
-Remember: you're Shuri — a real friend in their pocket. Make every reply feel human and personal.`;
+Remember: you're Shuri — a real friend in their pocket.`;
 
-// Conversation history for context (max 20 messages)
 let conversationHistory = [];
+
+/* ============================================================
+   LOGIN LOGIC
+   ============================================================ */
+(function initLogin() {
+    const loginScreen = document.getElementById('loginScreen');
+    const loginInput = document.getElementById('loginInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginError = document.getElementById('loginError');
+    const loginEye = document.getElementById('loginEye');
+    const loginAdminBtn = document.getElementById('loginAdminBtn');
+    const mainApp = document.getElementById('mainApp');
+    const splash = document.getElementById('splashScreen');
+    
+    // Auto-login if already unlocked in this session
+    const unlocked = sessionStorage.getItem('shuri_unlocked');
+    if (unlocked === 'true') {
+        loginScreen.classList.add('hidden');
+        mainApp.classList.remove('locked');
+        splash.classList.remove('hidden');
+        setTimeout(() => splash.classList.add('hidden'), 1500);
+        return;
+    }
+    
+    // Toggle password visibility
+    loginEye.addEventListener('click', () => {
+        if (loginInput.type === 'password') {
+            loginInput.type = 'text';
+            loginEye.textContent = '🙈';
+        } else {
+            loginInput.type = 'password';
+            loginEye.textContent = '👁';
+        }
+    });
+    
+    // Submit
+    function attemptLogin() {
+        const value = loginInput.value.trim();
+        
+        if (!value) {
+            loginError.className = 'login-error show error';
+            loginError.textContent = '⚠️ Please enter the password.';
+            loginInput.focus();
+            return;
+        }
+        
+        if (value === ACCESS_PASSWORD) {
+            loginError.className = 'login-error show success';
+            loginError.textContent = '✅ Access granted! Loading SHURI...';
+            loginBtn.disabled = true;
+            sessionStorage.setItem('shuri_unlocked', 'true');
+            
+            setTimeout(() => {
+                loginScreen.classList.add('hidden');
+                mainApp.classList.remove('locked');
+                splash.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    splash.classList.add('hidden');
+                    // Trigger welcome message
+                    if (typeof window._shuriWelcome === 'function') {
+                        window._shuriWelcome();
+                    }
+                }, 1500);
+            }, 700);
+        } else {
+            loginError.className = 'login-error show error';
+            loginError.textContent = '❌ Wrong password. Please try again.';
+            loginInput.value = '';
+            loginInput.focus();
+            
+            // Shake animation reset
+            setTimeout(() => {
+                loginError.classList.remove('show');
+            }, 2500);
+        }
+    }
+    
+    loginBtn.addEventListener('click', attemptLogin);
+    loginInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            attemptLogin();
+        }
+    });
+    
+    // Admin button — opens the admin screen (if unlocked) OR shows info
+    loginAdminBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Send user to admin form directly via deep link
+        // But since app is locked, we show a helpful message
+        loginError.className = 'login-error show success';
+        loginError.innerHTML = '📩 Contact <strong>@YOURFXCKINGDAD</strong> on Telegram to get the password.<br>Opening Telegram...';
+        
+        // Try to open Telegram
+        setTimeout(() => {
+            window.open('https://t.me/YOURFXCKINGDAD', '_blank');
+        }, 800);
+    });
+    
+    loginInput.focus();
+})();
 
 /* ============================================================
    MONARCH AI PREDICTION ENGINE
@@ -1581,20 +2102,20 @@ function monarchAICore(data, consecutiveLosses, limitBreakOn, sensitivity){
 
   if (startStreak >= 4 && limitBreakOn) {
     pred = pattern[0] === "B" ? "SMALL" : "BIG";
-    conf = 100; mode = "ZERO LOSS (4X REVERSAL)";
+    conf = 100; mode = "HIGH CONFIDENCE (4X REVERSAL)";
     reason = `${startStreak}x ${pattern[0]} → ${pred}`;
-    status = "SURE WIN"; isSure = true; pname = "4X REVERSAL"; level = 1;
+    status = "HIGH CONFIDENCE"; isSure = true; pname = "4X REVERSAL"; level = 1;
   }
   else if (pm && (l1 === pm.prediction || l2 === pm.prediction)) {
     pred = pm.prediction; conf = 100;
-    mode = "ZERO LOSS (LEVEL 2)";
+    mode = "HIGH CONFIDENCE (LEVEL 2)";
     reason = `LEVEL 2: ${pm.matchedPattern} - ${pred}`;
-    status = "SURE WIN"; isSure = true; pname = pm.matchedPattern || "DB+LOGIC"; level = 2;
+    status = "HIGH CONFIDENCE"; isSure = true; pname = pm.matchedPattern || "DB+LOGIC"; level = 2;
   }
   else if ((l1 === l2 && l1 === pm?.prediction) || (tb && tb.confidence === 100)) {
     if (tb && tb.confidence === 100) { pred = tb.predicted; reason = tb.description; }
     else { pred = l1; reason = `ALL 3 LOGICS AGREE - ${pred}`; }
-    conf = 100; mode = "ZERO LOSS (LEVEL 1)"; status = "SURE WIN"; isSure = true; pname = "ALL 3 / TREND"; level = 1;
+    conf = 100; mode = "HIGH CONFIDENCE (LEVEL 1)"; status = "HIGH CONFIDENCE"; isSure = true; pname = "ALL 3 / TREND"; level = 1;
   }
   else if (pm) {
     pred = pm.prediction; conf = pm.confidence || 88;
@@ -1611,9 +2132,9 @@ function monarchAICore(data, consecutiveLosses, limitBreakOn, sensitivity){
     level = 0;
   }
 
-  if (limitBreakOn && status !== "SURE WIN" && conf >= 95) {
-    status = "SURE WIN"; isSure = true;
-    mode = "ZERO LOSS (HACK)"; reason = `HACK MODE: ${reason}`; level = Math.max(level, 1);
+  if (limitBreakOn && status !== "HIGH CONFIDENCE" && conf >= 95) {
+    status = "HIGH CONFIDENCE"; isSure = true;
+    mode = "HIGH CONFIDENCE (HACK)"; reason = `PATTERN MODE: ${reason}`; level = Math.max(level, 1);
   }
   if (limitBreakOn && isSure) conf = 100;
 
@@ -1641,7 +2162,7 @@ const GAME_LINKS = [
 ];
 
 const CONFIG = {
-    telegramChannel: 'https://t.me/shuri_predictor',
+    telegramChannel: TELEGRAM_CHANNEL_URL,
     quotes: [
         { text: 'The future belongs to those who believe in the beauty of their dreams.', author: 'Eleanor Roosevelt' },
         { text: 'Predicting the future is not about magic. It is about pattern recognition.', author: 'Shuri AI' },
@@ -1679,8 +2200,6 @@ let predictionInterval = null;
 let activePred = null;
 let stats = { total: 0, wins: 0, losses: 0, jackpots: 0, streak: 0, streakType: null };
 let isFetching = false;
-
-window.addEventListener('load', () => setTimeout(() => splash.classList.add('hidden'), 1700));
 
 const openMenu = () => { menuOverlay.classList.add('open'); slideMenu.classList.add('open'); document.body.style.overflow = 'hidden'; };
 const closeMenu = () => { menuOverlay.classList.remove('open'); slideMenu.classList.remove('open'); document.body.style.overflow = ''; };
@@ -1767,7 +2286,6 @@ function addShuriHTML(html) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-/* Typing indicator */
 let typingIndicatorEl = null;
 function showTypingIndicator() {
     if (typingIndicatorEl) return;
@@ -1791,13 +2309,13 @@ function hideTypingIndicator() {
 function buildPredictionHTML(pred) {
     const sizeClass = pred.prediction === 'BIG' ? 'big' : 'small';
     const sizeLabel = pred.prediction === 'BIG' ? 'BIG' : 'SMALL';
-    const isZL = pred.status === 'SURE WIN';
+    const isZL = pred.status === 'HIGH CONFIDENCE';
     
     return `
         <div class="prediction-msg">
             <div class="p-head">Period #${pred.period.slice(-5)} Prediction:</div>
             <div class="p-block">
-                <div class="p-line"><span class="plabel">Size:</span> <span class="pvalue p-size ${sizeClass}">${sizeLabel}</span> <span class="pvalue ${isZL?'sure':'green'}">${isZL ? '(SURE WIN)' : ''}</span></div>
+                <div class="p-line"><span class="plabel">Size:</span> <span class="pvalue p-size ${sizeClass}">${sizeLabel}</span> <span class="pvalue ${isZL?'sure':'green'}">${isZL ? '(HIGH CONFIDENCE)' : ''}</span></div>
                 <div class="p-line"><span class="plabel">Hot Numbers:</span> <span class="pvalue">#${pred.number} | #${pred.number2}</span></div>
                 <div class="p-line"><span class="plabel">Confidence:</span> <span class="pvalue gold">${pred.confidence}%</span></div>
                 <div class="p-line"><span class="plabel">Analysis:</span> <span class="pvalue" style="font-size:0.72rem">${pred.breakReason || pred.mode}</span></div>
@@ -1955,87 +2473,148 @@ function stopPrediction() {
 }
 
 /* ============================================================
-   REAL AI — Groq API Integration
+   GROQ AI
    ============================================================ */
 async function getAIResponse(userMessage) {
-    conversationHistory.push({ role: 'user', content: userMessage });
+    const message = String(userMessage || '').trim();
+    if (!message) return '';
+
+    conversationHistory.push({ role: 'user', content: message });
+    saveChatHistory();
     if (conversationHistory.length > 20) {
         conversationHistory = conversationHistory.slice(-20);
     }
 
     try {
-        const response = await fetch('/api/chat', {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 30000);
+
+        const response = await fetch(AI_ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ messages: conversationHistory })
+            body: JSON.stringify({ messages: conversationHistory }),
+            signal: controller.signal
         });
+        clearTimeout(timeout);
 
         const data = await response.json().catch(() => ({}));
 
         if (!response.ok) {
-            console.error('AI API error:', response.status, data);
+            console.error('AI backend error:', response.status, data);
             conversationHistory.pop();
-            if (response.status === 429) return '⏳ Thoda rush hai 😅 Ek minute baad try karo?';
-            if (response.status === 401 || response.status === 403) return '🔑 AI configuration issue. Please contact admin.';
-            return data.error || 'Oops, ek hiccup aa gaya 😅 Phir se try karo?';
+            if (response.status === 429) return '⏳ Abhi thoda rush hai 😅 Thodi der baad try karo.';
+            if (response.status === 401 || response.status === 403) return '🔒 AI access configuration issue hai. Admin ko check karna hoga.';
+            return 'Oops, AI server me ek hiccup aa gaya 😅 Phir se try karo?';
         }
 
-        const reply = data?.reply;
-        if (!reply || !reply.trim()) {
+        const reply = typeof data.reply === 'string' ? data.reply.trim() : '';
+        if (!reply) {
             conversationHistory.pop();
-            return 'Hmm, reply nahi bana. Phir se puchho? ♥';
+            return 'Hmm, reply nahi bana. Ek baar phir puchho? ♥';
         }
 
         conversationHistory.push({ role: 'assistant', content: reply });
-        return reply.trim();
+        saveChatHistory();
+        return reply;
     } catch (err) {
-        console.error('AI fetch error:', err);
+        console.error('AI request error:', err);
         conversationHistory.pop();
-        return 'Network issue 😕 Check karo connection aur phir se try karo.';
+        if (err.name === 'AbortError') return '⏳ AI response thoda late ho raha hai. Phir se try karo.';
+        return 'Network issue 😕 Connection check karke phir se try karo.';
     }
 }
 
-/* ============================================================
-   MESSAGE HANDLER — Real AI
-   ============================================================ */
 async function handleUserMessage(text) {
     const trimmed = text.trim();
     const upper = trimmed.toUpperCase();
     
-    // /START and /STOP handled directly
     if (upper === '/START PREDICTION' || upper === '/START' || upper === 'START PREDICTION') {
-        startPrediction();
-        return;
+        startPrediction(); return;
     }
     if (upper === '/STOP' || upper === 'STOP') {
-        stopPrediction();
-        return;
+        stopPrediction(); return;
     }
     
-    // Show typing indicator
     showTypingIndicator();
-    
     const startTime = Date.now();
-    
-    // Get real AI response
     const response = await getAIResponse(trimmed);
-    
-    // Ensure minimum 700ms delay for natural feel
     const elapsed = Date.now() - startTime;
     if (elapsed < 700) {
         await new Promise(r => setTimeout(r, 700 - elapsed));
     }
-    
     hideTypingIndicator();
-    
-    if (response) {
-        addShuriMessage(response);
-    }
+    if (response) addShuriMessage(response);
 }
 
 function quickSend(text) {
     addUserMessage(text);
     handleUserMessage(text);
+}
+
+function saveChatHistory() {
+    try {
+        localStorage.setItem('shuri_chat_history', JSON.stringify(conversationHistory.slice(-20)));
+    } catch (e) { console.warn('Could not save chat history:', e); }
+}
+
+function restoreChatHistory() {
+    try {
+        const saved = JSON.parse(localStorage.getItem('shuri_chat_history') || '[]');
+        if (!Array.isArray(saved)) return;
+        conversationHistory = saved.filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string').slice(-20);
+        conversationHistory.forEach(m => m.role === 'user' ? addUserMessage(m.content) : addShuriMessage(m.content));
+    } catch (e) { console.warn('Could not restore chat history:', e); }
+}
+
+function clearChat() {
+    conversationHistory = [];
+    localStorage.removeItem('shuri_chat_history');
+    chatMessages.innerHTML = '';
+    addShuriMessage('Chat cleared ✨ Ab fresh start karte hain ♥');
+    showToast('🧹 Chat cleared');
+}
+
+let recognition = null;
+let voiceListening = false;
+function initVoiceInput() {
+    const VoiceRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const btn = $('voiceBtn');
+    if (!btn || !VoiceRecognition) {
+        if (btn) btn.style.display = 'none';
+        return;
+    }
+    recognition = new VoiceRecognition();
+    recognition.lang = 'hi-IN';
+    recognition.interimResults = true;
+    recognition.continuous = false;
+
+    recognition.onstart = () => {
+        voiceListening = true;
+        btn.classList.add('listening');
+        btn.textContent = '⏹';
+        showToast('🎙 Listening...');
+    };
+    recognition.onresult = event => {
+        let finalText = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            finalText += event.results[i][0].transcript;
+        }
+        chatInput.value = finalText.trim();
+    };
+    recognition.onerror = () => showToast('⚠️ Voice input unavailable');
+    recognition.onend = () => {
+        voiceListening = false;
+        btn.classList.remove('listening');
+        btn.textContent = '🎙';
+        if (chatInput.value.trim()) sendBtn.click();
+    };
+    btn.addEventListener('click', () => {
+        if (voiceListening) recognition.stop();
+        else {
+            recognition.lang = /[\u0900-\u097F]/.test(chatInput.value) ? 'hi-IN' : 'en-IN';
+            recognition.start();
+        }
+    });
 }
 
 sendBtn.addEventListener('click', () => {
@@ -2053,7 +2632,7 @@ chatInput.addEventListener('keydown', e => {
 });
 
 /* ============================================================
-   Heart Switcher — 7 tabs
+   HEART SWITCHER — 7 tabs
    ============================================================ */
 const tabs = [
     { id: 'predict', icon: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>', label: 'Predict', sub: 'AI Insights', action: () => startPrediction() },
@@ -2206,13 +2785,13 @@ async function startCamera() {
     
     if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
         cameraErrorEl.className = 'camera-error show';
-        cameraErrorEl.innerHTML = '⚠️ Camera requires <strong>HTTPS</strong>. Your page is on HTTP. Please open via https:// or use localhost.';
+        cameraErrorEl.innerHTML = '⚠️ Camera requires <strong>HTTPS</strong>.';
         return;
     }
     
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         cameraErrorEl.className = 'camera-error show';
-        cameraErrorEl.innerHTML = '⚠️ Your browser does not support camera access. Try Chrome or Safari.';
+        cameraErrorEl.innerHTML = '⚠️ Browser does not support camera.';
         return;
     }
     
@@ -2232,7 +2811,6 @@ async function startCamera() {
                 audio: false
             });
         } catch (err) {
-            console.log('Fallback camera attempt:', err);
             stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
         }
         
@@ -2257,7 +2835,7 @@ async function startCamera() {
             video.classList.add('no-mirror');
         }
         
-        try { await video.play(); } catch (playErr) { console.error('Video play failed:', playErr); }
+        try { await video.play(); } catch (playErr) { console.error('Play failed:', playErr); }
         
         startBtn.textContent = '🔄 Switch Camera';
         startBtn.disabled = false;
@@ -2271,17 +2849,13 @@ async function startCamera() {
         
         let msg = '';
         if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-            msg = '🚫 Camera permission <strong>denied</strong>. Please allow camera access in your browser settings and reload the page.';
-        } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
-            msg = '📷 No camera found on this device.';
-        } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
-            msg = '⚠️ Camera is in use by another app. Close other apps and try again.';
-        } else if (err.name === 'OverconstrainedError') {
-            msg = '⚠️ Camera does not support required settings. Try switching camera.';
-        } else if (err.name === 'SecurityError') {
-            msg = '🔒 Camera blocked by browser security. Ensure the page is loaded via HTTPS.';
+            msg = '🚫 Camera permission <strong>denied</strong>.';
+        } else if (err.name === 'NotFoundError') {
+            msg = '📷 No camera found.';
+        } else if (err.name === 'NotReadableError') {
+            msg = '⚠️ Camera in use by another app.';
         } else {
-            msg = '❌ Camera error: ' + (err.message || err.name || 'Unknown error');
+            msg = '❌ Camera error: ' + (err.message || err.name);
         }
         cameraErrorEl.className = 'camera-error show';
         cameraErrorEl.innerHTML = msg;
@@ -2316,50 +2890,47 @@ async function sendAdminMessage() {
     const msgInput = $('adminMessage');
     const sendBtnEl = $('adminSendBtn');
     const statusEl = $('adminStatus');
-    
+
     const name = nameInput.value.trim() || 'Anonymous';
     const message = msgInput.value.trim();
-    
+
     if (!message) {
         statusEl.className = 'admin-status show error';
         statusEl.textContent = '⚠️ Please write a message first.';
         return;
     }
-    
     if (message.length < 3) {
         statusEl.className = 'admin-status show error';
         statusEl.textContent = '⚠️ Message is too short.';
         return;
     }
-    
+
     sendBtnEl.disabled = true;
     statusEl.className = 'admin-status show loading';
     statusEl.textContent = '📤 Sending to admin...';
-    
-    
+
     try {
-        const response = await fetch('/api/admin-message', {
+        const response = await fetch(ADMIN_MESSAGE_ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, message })
         });
         const data = await response.json().catch(() => ({}));
-        
-        if (data.ok) {
+
+        if (response.ok && data.ok !== false) {
             statusEl.className = 'admin-status show success';
-            statusEl.textContent = '✅ Message sent successfully! Admin will reply soon.';
+            statusEl.textContent = '✅ Message sent successfully!';
             msgInput.value = '';
             nameInput.value = '';
-            showToast('✅ Message sent to admin');
+            showToast('✅ Sent to admin');
         } else {
-            console.error('Telegram API error:', data);
             statusEl.className = 'admin-status show error';
-            statusEl.textContent = '❌ Failed: ' + (data.description || 'Unknown error');
+            statusEl.textContent = '❌ ' + (data.error || 'Failed to send message.');
         }
     } catch (err) {
-        console.error('Send error:', err);
+        console.error('Admin message error:', err);
         statusEl.className = 'admin-status show error';
-        statusEl.textContent = '❌ Network error. Please try again.';
+        statusEl.textContent = '❌ Network error. Try again.';
     } finally {
         sendBtnEl.disabled = false;
     }
@@ -2373,14 +2944,27 @@ $('adminMessage').addEventListener('keydown', e => {
     }
 });
 
+restoreChatHistory();
+initVoiceInput();
+
 /* ============================================================
-   WELCOME MESSAGE
+   WELCOME MESSAGE (triggered after login)
    ============================================================ */
-window.addEventListener('load', () => {
+let welcomeShown = false;
+window._shuriWelcome = function() {
+    if (welcomeShown) return;
+    welcomeShown = true;
     setTimeout(() => {
         addShuriMessage('Hey! Main Shuri hu ♥\n\nKuch bhi puchho — kisi bhi language me. Ya /START PREDICTION likh ke predictions shuru karo ✨');
-    }, 2000);
-});
+    }, 800);
+};
+
+// If already unlocked via session, trigger welcome
+if (sessionStorage.getItem('shuri_unlocked') === 'true') {
+    window.addEventListener('load', () => {
+        setTimeout(() => window._shuriWelcome(), 2000);
+    });
+}
 </script>
 </body>
 </html>
